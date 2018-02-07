@@ -44,21 +44,21 @@ public class Controller implements Initializable{
 
 
         //proxy connection module
-        URL url = new URL("http://hk.eastmoney.com/news/cggyw.html");
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
-        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
-
-        uc.connect();
-
-        String line = null;
-        StringBuffer tmp = new StringBuffer();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        while ((line = in.readLine()) != null) {
-            tmp.append(line);
-        }
+//        URL url = new URL("http://hk.eastmoney.com/news/cggyw.html");
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.h", 8080)); // or whatever your proxy is
+//        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+//
+////        uc.connect();
+//
+//        String line = null;
+//        StringBuffer tmp = new StringBuffer();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//        while ((line = in.readLine()) != null) {
+//            tmp.append(line);
+//        }
         //---------------------------------------------------------------------------
 
-        org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
+        org.jsoup.nodes.Document doc = Jsoup.connect("http://hk.eastmoney.com/news/cggyw.html").get();
         Elements ul = doc.select("ul");
         Elements li = ul.select("li");
         for (int i = 0; i < li.size(); i++) {
@@ -70,21 +70,21 @@ public class Controller implements Initializable{
 }
 
     @FXML  protected void getNewsFromMingPao (ActionEvent event) throws Exception {
-        URL url = new URL("https://www.mpfinance.com/fin/main.php");
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
-        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
-
-        uc.connect();
-
-        String line = null;
-        StringBuffer tmp = new StringBuffer();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        while ((line = in.readLine()) != null) {
-            tmp.append(line);
-        }
+//        URL url = new URL("https://www.mpfinance.com/fin/main.php");
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
+//        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+//
+//        uc.connect();
+//
+//        String line = null;
+//        StringBuffer tmp = new StringBuffer();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//        while ((line = in.readLine()) != null) {
+//            tmp.append(line);
+//        }
         //---------------------------------------------------------------------------
 
-        org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
+        org.jsoup.nodes.Document doc = Jsoup.connect("https://www.mpfinance.com/fin/main.php").get();
         Elements ul = doc.select("ul");
         Elements li = ul.select("li");
         for (int i = 0; i < li.size(); i++)
@@ -93,21 +93,21 @@ public class Controller implements Initializable{
     }
 
     @FXML  protected void getNewsFromHackerNews (ActionEvent event) throws Exception {
-        URL url = new URL("https://news.ycombinator.com/");
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
-        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
-
-        uc.connect();
-
-        String line = null;
-        StringBuffer tmp = new StringBuffer();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        while ((line = in.readLine()) != null) {
-            tmp.append(line);
-        }
+//        URL url = new URL("https://news.ycombinator.com/");
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
+//        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+//
+//        uc.connect();
+//
+//        String line = null;
+//        StringBuffer tmp = new StringBuffer();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//        while ((line = in.readLine()) != null) {
+//            tmp.append(line);
+//        }
         //---------------------------------------------------------------------------
 
-        org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
+        org.jsoup.nodes.Document doc = Jsoup.connect("https://news.ycombinator.com").get();
         Elements tbody = doc.select("tbody");
         Elements tr = tbody.select("tr");
         for (int i = 0; i < tr.size(); i++)
