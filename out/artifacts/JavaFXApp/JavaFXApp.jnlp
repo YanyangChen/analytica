@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="JavaFXApp.jnlp">
+  <information>
+    <title>Sample JavaFX Application</title>
+    <vendor>Unknown vendor</vendor>
+    <description>Sample JavaFX 2.0 application.</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <jfx:javafx-runtime version="2.2+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+  </resources>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="JavaFXApp.jar" size="20337" download="eager" />
+    <jar href="lib/ant-javafx.jar" size="154648" download="eager" />
+    <jar href="lib/aspectjrt-1.7.0.jar" size="116218" download="eager" />
+    <jar href="lib/bonecp-0.8.0.RELEASE.jar" size="115841" download="eager" />
+    <jar href="lib/commons-lang3-3.7.jar" size="499634" download="eager" />
+    <jar href="lib/guava-20.0.jar" size="2442625" download="eager" />
+    <jar href="lib/javafx-doclet.jar" size="1096229" download="eager" />
+    <jar href="lib/javafx-mx.jar" size="68311" download="eager" />
+    <jar href="lib/jcabi-aspects-0.22.4.jar" size="83979" download="eager" />
+    <jar href="lib/jcabi-jdbc-0.13.jar" size="52376" download="eager" />
+    <jar href="lib/jconn4.jar" size="1815483" download="eager" />
+    <jar href="lib/jsoup-1.11.2.jar" size="392350" download="eager" />
+    <jar href="lib/slf4j.jar" size="29881" download="eager" />
+  </resources>
+  <applet-desc  width="600" height="400" main-class="com.javafx.main.NoJavaFXFallback"  name="JavaFXApp" >
+    <param name="requiredFXVersion" value="2.2+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="600" height="400" main-class="sample.Main"  name="JavaFXApp" />
+  <update check="background"/>
+</jnlp>
