@@ -231,13 +231,13 @@ public void Update2excel() throws Exception{
             stkrcds.add(new stkrcd());
             stkrcds.get(i-1).datestr = sheet.getRow(i).getCell(0).getStringCellValue();
             stkrcds.get(i-1).date = sdf.parse(sheet.getRow(i).getCell(1).getStringCellValue());
-            stkrcds.get(i-1).open =Float.parseFloat(sheet.getRow(i).getCell(2).getStringCellValue());
-            stkrcds.get(i-1).high =Float.parseFloat(sheet.getRow(i).getCell(3).getStringCellValue());
-            stkrcds.get(i-1).low =Float.parseFloat(sheet.getRow(i).getCell(4).getStringCellValue());
-            stkrcds.get(i-1).close = Float.parseFloat(sheet.getRow(i).getCell(5).getStringCellValue());
-            stkrcds.get(i-1).adj_close =Float.parseFloat(sheet.getRow(i).getCell(6).getStringCellValue());
-            stkrcds.get(i-1).volumn =Float.parseFloat(sheet.getRow(i).getCell(7).getStringCellValue().replace(",",""));
-            if(i>1)stkrcds.get(i-1).close_diff =Float.parseFloat(sheet.getRow(i).getCell(5).getStringCellValue()) - Float.parseFloat(sheet.getRow(i-1).getCell(5).getStringCellValue());
+            stkrcds.get(i-1).open =Float.parseFloat(sheet.getRow(i).getCell(2).getStringCellValue().replace(",","").replace(".00",""));
+            stkrcds.get(i-1).high =Float.parseFloat(sheet.getRow(i).getCell(3).getStringCellValue().replace(",","").replace(".00",""));
+            stkrcds.get(i-1).low =Float.parseFloat(sheet.getRow(i).getCell(4).getStringCellValue().replace(",","").replace(".00",""));
+            stkrcds.get(i-1).close = Float.parseFloat(sheet.getRow(i).getCell(5).getStringCellValue().replace(",","").replace(".00",""));
+            stkrcds.get(i-1).adj_close =Float.parseFloat(sheet.getRow(i).getCell(6).getStringCellValue().replace(",","").replace(".00",""));
+            stkrcds.get(i-1).volumn =Float.parseFloat(sheet.getRow(i).getCell(7).getStringCellValue().replace(",","").replace(",","").replace(".00",""));
+            if(i>1)stkrcds.get(i-1).close_diff =Float.parseFloat(sheet.getRow(i).getCell(5).getStringCellValue().replace(",","").replace(".00","")) - Float.parseFloat(sheet.getRow(i-1).getCell(5).getStringCellValue().replace(",","").replace(".00",""));
         }
 
 
@@ -273,7 +273,7 @@ public void Update2excel() throws Exception{
         for (int i =stkrcds.size()-7; i < stkrcds.size(); i++)
         {
             System.out.println("date : "+stkrcds.get(i).date+ "  volumn : " + stkrcds.get(i).volumn + "  close_diff : " + stkrcds.get(i).close_diff);
-            if (stkrcds.get(i).close_diff / stkrcds.get(i).close > 0.01)
+            if (stkrcds.get(i).close_diff / stkrcds.get(i).close > 0.02)
             {binpattern +="1";}
             else{binpattern += "0";}
         }

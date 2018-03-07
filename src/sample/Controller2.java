@@ -338,7 +338,7 @@ public class Controller2 implements Initializable{
 
     @FXML protected void Test(ActionEvent event) throws Exception {
 
-            Stock stk = new Stock("0700.HK");
+            Stock stk = new Stock("3816.HK");
 //            stk.getStock2Excel();
            stk.readFromExcel();
            stk.getLast7sData();
@@ -348,7 +348,7 @@ public class Controller2 implements Initializable{
     @FXML protected void TestBinPattern(ActionEvent event) throws Exception {
 
         String bided = "";
-        for(int i = 0; i <500; i++){
+        for(int i = 0; i <stks.size(); i++){
             Stock stk = new Stock(stks.get(i));
 //            stk.getStock2Excel();
 
