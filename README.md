@@ -1,5 +1,5 @@
 # analytica
-analyse with:
+analyse with:\n
 1.Dividend history
 2.Financial state
   2.1 Net income/profit
