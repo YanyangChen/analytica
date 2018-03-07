@@ -273,8 +273,8 @@ public void Update2excel() throws Exception{
         for (int i =stkrcds.size()-7; i < stkrcds.size(); i++)
         {
             System.out.println("date : "+stkrcds.get(i).date+ "  volumn : " + stkrcds.get(i).volumn + "  close_diff : " + stkrcds.get(i).close_diff);
-            if (stkrcds.get(i).close_diff / stkrcds.get(i).close > 0.02)
-            {binpattern +="1";}
+            if (stkrcds.get(i).close_diff / stkrcds.get(i).close > 0.02) //define raising ratio
+            {binpattern +="1";} //ratio reached define as "1";
             else{binpattern += "0";}
         }
        System.out.println("binpattern is " + binpattern);
