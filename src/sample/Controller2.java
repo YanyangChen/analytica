@@ -1,48 +1,70 @@
 package sample;
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.scene.control.ProgressBar;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import java.io.*;
+import java.util.Scanner;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 public class Controller2 implements Initializable{
+    public ArrayList<String> stks;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        Properties pty = new Properties();
+//        File f = new File("resource.cntion.properties");
+//        System.out.println("show absolute" +f.getAbsolutePath());
+//        //System.out.println("get absolute " + f.getPath());
+//        if (f.exists()) {
+//            System.out.println("file found: " + f.getAbsolutePath());
+//        } else {
+//            System.out.println("file not exists ! NOT expected");
+//        }
+        InputStream in = getClass().getResourceAsStream("/tickets.properties");
+        try {
+            pty.load(in);
+            Update.getUpdate();
+            Update.countStartsecs("01012016");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stks = new ArrayList<String>();
+        for (Integer i = 1; i <= 1949; i++){
 
+        stks.add(pty.getProperty(i.toString()));
 
+        }
+        int j = 0;
+        for(String stk : stks) {
+            j++;
+            System.out.println(j +" tickets is :" + stk);
+        }
     }
-
+    int counter = 0;
     @FXML  protected void getNewsfromEastmoney (ActionEvent event) throws Exception {
 
 
@@ -75,44 +97,8 @@ public class Controller2 implements Initializable{
 }
 
     @FXML  protected void getNewsFromMingPao (ActionEvent event) throws Exception {
-        URL url = new URL("https://www.mpfinance.com/fin/main.php");
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
-        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
-
-        uc.connect();
-
-        String line = null;
-        StringBuffer tmp = new StringBuffer();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        while ((line = in.readLine()) != null) {
-            tmp.append(line);
-        }
-        //---------------------------------------------------------------------------
-
-        org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
-        Elements ul = doc.select("ul");
-        Elements li = ul.select("li");
-        for (int i = 0; i < li.size(); i++)
-            System.out.print(li.get(i).text() + "\n") ;
-
-    }
-
-    @FXML  protected void getNewsFromHackerNews (ActionEvent event) throws Exception {
-//        URL url = new URL("https://news.ycombinator.com/");
-        int gap = 3600*24*120;
-        Integer start = 1107792000;
-        Integer end = 1454860800;
-//        org.jsoup.nodes.Document doc = Jsoup.connect("https://finance.yahoo.com/quote/0700.HK/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d").proxy(proxy).get();
-
-//        URL url = new URL("https://finance.yahoo.com/quote/0700.HK/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d");
-
-       for(Integer i=start.intValue(); i < end.intValue(); i += gap ) {
-           Integer i2 = i + gap;
-           getData("0700.HK", i.toString(), i2.toString());
-       }
-        //        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
-//        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
-//        System.setProperty("http.proxyPort", "8080");
+//        URL url = new URL("https://www.mpfinance.com/fin/main.php");
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
 //        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
 //
 //        uc.connect();
@@ -123,33 +109,69 @@ public class Controller2 implements Initializable{
 //        while ((line = in.readLine()) != null) {
 //            tmp.append(line);
 //        }
-//        //---------------------------------------------------------------------------
-////        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
-////        System.setProperty("http.proxyPort", "8080");
-//       org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
-//        Elements tbody = doc.select("tbody");
-//        Elements tr = tbody.select("tr");
-//        for (int i = 0; i < tr.size(); i++)
-//            System.out.print(tr.get(i).text() + "\n") ;
+        //---------------------------------------------------------------------------
+
+        org.jsoup.nodes.Document doc = Jsoup.parse(Connection.cntAndGetString("https://www.mpfinance.com/fin/main.php"));
+        Elements ul = doc.select("ul");
+        Elements li = ul.select("li");
+        for (int i = 0; i < li.size(); i++)
+            System.out.print(li.get(i).text() + "\n") ;
 
     }
 
-    @FXML  protected void getNewsFromnewsAM730 (ActionEvent event) throws Exception {
-        URL url = new URL("https://www.am730.com.hk/latest_news/%E8%B2%A1%E7%B6%93");
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
-        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+    @FXML  protected void getNewsFromHackerNews (ActionEvent event) throws Exception {
+//        URL url = new URL("https://news.ycombinator.com/");
+////        int gap = 3600*24*120;
+////        Integer start = 1107792000;
+////        Integer end = 1454860800;
+////        org.jsoup.nodes.Document doc = Jsoup.connect("https://finance.yahoo.com/quote/0700.HK/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d").proxy(proxy).get();
+//
+////        URL url = new URL("https://finance.yahoo.com/quote/0700.HK/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d");
+//
+////       for(Integer i=start.intValue(); i < end.intValue(); i += gap ) {
+////           Integer i2 = i + gap;
+////           getData("0700.HK", i.toString(), i2.toString());
+////       }
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
+////        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
+////        System.setProperty("http.proxyPort", "8080");
+//        HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+////
+//        uc.connect();
+////
+//        String line = null;
+//        StringBuffer tmp = new StringBuffer();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//        while ((line = in.readLine()) != null) {
+//            tmp.append(line);
+////        }
+//        //---------------------------------------------------------------------------
+////        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
+////        System.setProperty("http.proxyPort", "8080");
+            org.jsoup.nodes.Document doc = Jsoup.parse(Connection.cntAndGetString("https://news.ycombinator.com/"));
+            Elements tbody = doc.select("tbody");
+            Elements tr = tbody.select("tr");
+            for (int i = 0; i < tr.size(); i++)
+                System.out.print(tr.get(i).text() + "\n");
 
-        uc.connect();
-
-        String line = null;
-        StringBuffer tmp = new StringBuffer();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        while ((line = in.readLine()) != null) {
-            tmp.append(line);
         }
+
+    @FXML  protected void getNewsFromnewsAM730 (ActionEvent event) throws Exception {
+//        URL url = new URL("https://www.am730.com.hk/latest_news/%E8%B2%A1%E7%B6%93");
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
+//        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+//
+//        uc.connect();
+//
+//        String line = null;
+//        StringBuffer tmp = new StringBuffer();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//        while ((line = in.readLine()) != null) {
+//            tmp.append(line);
+//        }
         //---------------------------------------------------------------------------
 
-        org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
+        org.jsoup.nodes.Document doc = Jsoup.parse(Connection.cntAndGetString("https://www.am730.com.hk/latest_news/%E8%B2%A1%E7%B6%93"));
         Elements tbody = doc.getElementsByClass("col-xs-12 news-article-title text-overflowed twoLine newsTitle");
 //        Elements tr = tbody.select("tr");
         for (int i = 0; i < tbody.size(); i++)
@@ -162,7 +184,7 @@ public class Controller2 implements Initializable{
 
 
     @FXML protected void getTencentStock(ActionEvent event) throws Exception {
-        int gap = 3600*24*60;
+        int gap = 3600*24*60;//second 60 is the time period
         Integer start = 1107792000;
         Integer end = 1518019200;
 //        Integer end = 1107792000 +  3600*24*60;
@@ -177,41 +199,200 @@ public class Controller2 implements Initializable{
         }
     }
 
+    @FXML protected void getTencentStock2Excel(ActionEvent event) throws Exception {
+        Update.getUpdate();
+        Update.countStartsecs("01012010");
+        String file = "ts0700HK.xls";
 
-    void getData(String stock, String start, String end) throws Exception{
-        URL url = new URL("https://finance.yahoo.com/quote/"+stock+"/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d");
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
-        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
-        System.setProperty("http.proxyPort", "8080");
-        HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+//        POIFSFileSystem fs = new POIFSFileSystem(new FileOutputStream(file));
 
-        uc.connect();
+        FileOutputStream fs = new FileOutputStream(file);
+        HSSFWorkbook wb =  new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("test");
+        HSSFRow row;
+        HSSFCell cell;
 
-        String line = null;
-        StringBuffer tmp = new StringBuffer();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        while ((line = in.readLine()) != null) {
-            tmp.append(line);
+        int gap = 3600*24* 60;//second 60 is the time period
+//        Integer start = 1087315200;
+        Integer start = Update.startsecs;
+//        Integer start = 1518018400;
+        Integer end = Update.todaysecs;
+        System.out.println("Update.todaysecs : " + end);
+        System.out.println("Update.startsecs : " + Update.startsecs);
+//        Integer end = 1107792000 +  3600*24*60;
+//        org.jsoup.nodes.Document doc = Jsoup.connect("https://finance.yahoo.com/quote/0700.HK/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d").proxy(proxy).get();
+
+//        URL url = new URL("https://finance.yahoo.com/quote/0700.HK/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d");
+
+        for(Integer i=start.intValue(); i < end.intValue(); i += gap ) {
+            Integer i2 = i + gap;
+            if(i2 + 120 > end) i2 = end;
+           counter =  getData2excel("0700.HK", i.toString(), i2.toString(),sheet, counter);
         }
+        wb.write(fs);
+        fs.close();
+        wb.close();
+    }
+
+
+
+
+    void getData(String stock, String start, String end) throws Exception {
+//        URL url = new URL("https://finance.yahoo.com/quote/" + stock + "/history?period1=" + start.toString() + "&period2=" + end.toString() + "&interval=1d&filter=history&frequency=1d");
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
+//        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
+//        System.setProperty("http.proxyPort", "8080");
+//        HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+//
+//        uc.connect();
+//
+//        String line = null;
+//        StringBuffer tmp = new StringBuffer();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//        while ((line = in.readLine()) != null) {
+//            tmp.append(line);
+//        }
         //---------------------------------------------------------------------------
 //        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
 //        System.setProperty("http.proxyPort", "8080");
-        org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
+        org.jsoup.nodes.Document doc = Jsoup.parse(Connection.cntAndGetString("https://finance.yahoo.com/quote/" + stock + "/history?period1=" + start.toString() + "&period2=" + end.toString() + "&interval=1d&filter=history&frequency=1d"));
         Elements tbody = doc.select("tbody");
         Elements tr = tbody.select("tr");
+        int counter = 0;
         ArrayDeque<String> stkque = new ArrayDeque<String>();
-        for (int i = 0; i < tr.size(); i++)
-        {
+        for (int i = 0; i < tr.size(); i++) {
 //            System.out.print(tr.get(i).text() + "\n") ;
-         stkque.addFirst(tr.get(i).text());
+            stkque.addFirst(tr.get(i).text());
         }
-        for (int i = 0; i < tr.size(); i++)
-        {
+        for (int i = 0; i < tr.size(); i++) {
 //            System.out.print(tr.get(i).text() + "\n") ;
-            System.out.print(stkque.pollFirst() + "\n");
+
+            System.out.println(stkque.pollFirst() + "\n");
         }
-//        for (int i = 0; i < stkque.size(); i++)
-//        {System.out.println(stkque.pollFirst());}
+//
+    }
+        int getData2excel(String stock, String start, String end, HSSFSheet sheet, int counter) throws Exception{
+//            URL url = new URL("https://finance.yahoo.com/quote/"+stock+"/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d");
+//            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
+//            System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
+//            System.setProperty("http.proxyPort", "8080");
+//            HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+//
+//            uc.connect();
+//
+//            String line = null;
+//            StringBuffer tmp = new StringBuffer();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+//            while ((line = in.readLine()) != null) {
+//                tmp.append(line);
+//            }
+            //---------------------------------------------------------------------------
+//        System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
+//        System.setProperty("http.proxyPort", "8080");
+            org.jsoup.nodes.Document doc = Jsoup.parse(Connection.cntAndGetString("https://finance.yahoo.com/quote/"+stock+"/history?period1="+start.toString()+"&period2="+end.toString()+"&interval=1d&filter=history&frequency=1d"));
+            Elements tbody = doc.select("tbody");
+            Elements tr = tbody.select("tr");
+
+            ArrayDeque<String> stkque = new ArrayDeque<String>();
+            for (int i =  tr.size() -1 ; i >= 0; i--)
+            {
+            System.out.println(tr.get(i).text() + "\n") ;
+                counter++;
+               HSSFRow row = sheet.createRow(counter);
+                stkque.addFirst(tr.get(i).text());
+                if(        !tr.get(i).text().substring(12).contains("-")
+                        && !tr.get(i).text().substring(12).contains("Dividend")
+                        && !tr.get(i).text().substring(12).contains("Stock Split")){
+                row.createCell(0).setCellValue(tr.get(i).text().substring(0,12));
+
+                String[] splited = tr.get(i).text().substring(12).split(" ");
+                row.createCell(1).setCellValue(splited[0]);
+                row.createCell(2).setCellValue(splited[1]);
+                row.createCell(3).setCellValue(splited[2]);
+                row.createCell(4).setCellValue(splited[3]);
+                row.createCell(5).setCellValue(splited[4]);
+                row.createCell(6).setCellValue(splited[5]);
+                row.createCell(7).setCellValue(splited[6]);}
+            }
+//
 //    }
+            return counter;
+        }
+
+        @FXML protected void StocksTest(ActionEvent event) throws Exception {
+        for(int i = 273; i <275; i++){
+         Stock stk = new Stock(stks.get(i));
+         stk.getStock2Excel();
+//         stk.update();
+        }
+        }
+
+    @FXML protected void StocksUpdate(ActionEvent event) throws Exception {
+        for(int i = 0; i <stks.size(); i++){
+            Stock stk = new Stock(stks.get(i));
+//            stk.getStock2Excel();
+         stk.update();
+         stk.Update2excel();
+        }
+    }
+
+    @FXML protected void getQuestion (ActionEvent event) throws Exception {
+        Scanner s = null;
+        String summary ="";
+        boolean summary_flag = false;
+        boolean title_flag = false;
+
+        try {
+            s = new Scanner(new BufferedReader(new FileReader("xml.txt")));
+
+            while (s.hasNextLine()) {
+                String str = s.nextLine().toString();
+//                String str2 = s.nextLine().toString();
+                if( str.contains("<title>")) title_flag = true;
+               if( title_flag &&  !str.contains("<link>"))
+               {  String title = str;
+//                System.out.println(title);
+                   System.out.println("str: " + title);
+                   System.out.println("title.indexOf('-'): " + title.indexOf('-'));
+                   System.out.println(" title.indexOf(']'): " +  title.indexOf(']'));
+//                   System.out.println("title.indexOf('-'): " + title.indexOf('-'));
+                   System.out.println("{ \n \"id\" : \"" +
+                           title.substring(title.indexOf('-')
+                           + 1, title.indexOf(']'))+ "\", \n \"title\" : \""+
+                           title.substring(title.indexOf(']')+2, title.length())+ "\",");
+//                   System.out.println("{ \n \"id\" : \"" +title.substring(4, 9));
+//                   int st = title.indexOf('-');
+//                   int lst = title.indexOf(']');
+//                  title.substring(st,lst)
+//                   System.out.println(st);
+//                   System.out.println(lst);
+//                   String sub = title.substring(4,lst);
+//                   System.out.println(sub);
+//                   title_flag= false;
+               }
+                if( str.contains("</title>")) title_flag = false;
+
+                if( str.contains("<summary>")) {summary_flag = true; summary = ""; summary += str;}
+                if( str.contains("</summary>")) {summary_flag = false;  summary += str; }
+               if(summary_flag && !str.contains("<summary>"))
+                {
+                    summary +=str;
+//                    do {
+//                        summary = summary + str;
+//                        str=s.nextLine().toString();
+//                    }
+//                    while(str.contains("<\\summary>"));
+
+
+                }
+                if( str.contains("</item>")){System.out.println("\"summary\" : " + "\""+summary+"\"" + "\n },");}
+
+            }
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+    }
+    }
 }
-}
+

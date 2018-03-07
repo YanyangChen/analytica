@@ -3,7 +3,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
+<GridPane fx:controller="sample.Controller2"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <Button fx:id="news" GridPane.columnIndex="0" GridPane.rowIndex="0"  text="EastMoney News" onAction="#getNewsfromEastmoney">
 
@@ -14,6 +14,30 @@
 </Button>
 
     <Button fx:id="newsHK" GridPane.columnIndex="0" GridPane.rowIndex="2"  text="Hacker News" onAction="#getNewsFromHackerNews">
+
+    </Button>
+
+    <Button fx:id="newsAM730" GridPane.columnIndex="0" GridPane.rowIndex="3"  text="AM730 News" onAction="#getNewsFromnewsAM730">
+
+    </Button>
+
+    <Button fx:id="Stock_tencent" GridPane.columnIndex="0" GridPane.rowIndex="4"  text="Stock_tencent" onAction="#getTencentStock">
+
+    </Button>
+
+    <Button fx:id="Stock_tencent_2_excel" GridPane.columnIndex="0" GridPane.rowIndex="5"  text="Stock_tencent_2_excel" onAction="#getTencentStock2Excel">
+
+    </Button>
+
+    <Button fx:id="Stocks_2_excel" GridPane.columnIndex="0" GridPane.rowIndex="6"  text="Stocks_2_excel" onAction="#StocksTest">
+
+    </Button>
+
+    <Button fx:id="Stocks_update_in_excel" GridPane.columnIndex="0" GridPane.rowIndex="7"  text="Stocks_update_in_excel" onAction="#StocksUpdate">
+
+    </Button>
+
+    <Button fx:id="getQuestion" GridPane.columnIndex="0" GridPane.rowIndex="8"  text="getQuestion" onAction="#getQuestion">
 
     </Button>
 </GridPane>

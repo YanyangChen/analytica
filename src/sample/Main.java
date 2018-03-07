@@ -10,6 +10,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+//        String str = "Hello I'm your String";
+//        String[] splited = str.split(" ");
+//        System.out.println(splited[1]);
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("News Tittles");
         primaryStage.setScene(new Scene(root, 300, 275));
