@@ -40,4 +40,12 @@
     <Button fx:id="getQuestion" GridPane.columnIndex="0" GridPane.rowIndex="8"  text="getQuestion" onAction="#getQuestion">
 
     </Button>
+
+    <Button fx:id="Test" GridPane.columnIndex="0" GridPane.rowIndex="9"  text="Test" onAction="#Test">
+
+    </Button>
+
+    <Button fx:id="TestBinPattern" GridPane.columnIndex="1" GridPane.rowIndex="9"  text="TestBinPattern" onAction="#TestBinPattern">
+
+    </Button>
 </GridPane>

@@ -59,10 +59,10 @@ public class Controller2 implements Initializable{
 
         }
         int j = 0;
-        for(String stk : stks) {
-            j++;
-            System.out.println(j +" tickets is :" + stk);
-        }
+//        for(String stk : stks) {
+//            j++;
+//            System.out.println(j +" tickets is :" + stk);
+//        }
     }
     int counter = 0;
     @FXML  protected void getNewsfromEastmoney (ActionEvent event) throws Exception {
@@ -320,7 +320,7 @@ public class Controller2 implements Initializable{
         }
 
         @FXML protected void StocksTest(ActionEvent event) throws Exception {
-        for(int i = 273; i <275; i++){
+        for(int i = 1170; i <1171; i++){
          Stock stk = new Stock(stks.get(i));
          stk.getStock2Excel();
 //         stk.update();
@@ -328,7 +328,7 @@ public class Controller2 implements Initializable{
         }
 
     @FXML protected void StocksUpdate(ActionEvent event) throws Exception {
-        for(int i = 0; i <stks.size(); i++){
+        for(int i = 611; i <613; i++){
             Stock stk = new Stock(stks.get(i));
 //            stk.getStock2Excel();
          stk.update();
@@ -336,9 +336,43 @@ public class Controller2 implements Initializable{
         }
     }
 
+    @FXML protected void Test(ActionEvent event) throws Exception {
+
+            Stock stk = new Stock("0700.HK");
+//            stk.getStock2Excel();
+           stk.readFromExcel();
+           stk.getLast7sData();
+
+    }
+
+    @FXML protected void TestBinPattern(ActionEvent event) throws Exception {
+
+        String bided = "";
+        for(int i = 0; i <500; i++){
+            Stock stk = new Stock(stks.get(i));
+//            stk.getStock2Excel();
+
+            stk.readFromExcel();
+            if (stk.stkrcds.size()>7){
+            stk.getLast7sData();}
+            if (stk.binpattern.contains("111"))
+            {
+                bided += stk.ticket + "\n";
+            }
+        }
+
+        System.out.println(bided);
+//        Stock stk = new Stock("0700.HK");
+////            stk.getStock2Excel();
+//        stk.readFromExcel();
+//        stk.getLast7sData();
+
+    }
+
     @FXML protected void getQuestion (ActionEvent event) throws Exception {
         Scanner s = null;
         String summary ="";
+        String title = "";
         boolean summary_flag = false;
         boolean title_flag = false;
 
@@ -348,44 +382,35 @@ public class Controller2 implements Initializable{
             while (s.hasNextLine()) {
                 String str = s.nextLine().toString();
 //                String str2 = s.nextLine().toString();
-                if( str.contains("<title>")) title_flag = true;
-               if( title_flag &&  !str.contains("<link>"))
-               {  String title = str;
-//                System.out.println(title);
-                   System.out.println("str: " + title);
-                   System.out.println("title.indexOf('-'): " + title.indexOf('-'));
-                   System.out.println(" title.indexOf(']'): " +  title.indexOf(']'));
-//                   System.out.println("title.indexOf('-'): " + title.indexOf('-'));
-                   System.out.println("{ \n \"id\" : \"" +
-                           title.substring(title.indexOf('-')
-                           + 1, title.indexOf(']'))+ "\", \n \"title\" : \""+
-                           title.substring(title.indexOf(']')+2, title.length())+ "\",");
-//                   System.out.println("{ \n \"id\" : \"" +title.substring(4, 9));
-//                   int st = title.indexOf('-');
-//                   int lst = title.indexOf(']');
-//                  title.substring(st,lst)
-//                   System.out.println(st);
-//                   System.out.println(lst);
-//                   String sub = title.substring(4,lst);
-//                   System.out.println(sub);
-//                   title_flag= false;
+                if( str.contains("<title>") ) title_flag = true;
+               if( title_flag || str.contains("<title>") || str.contains("</title>"))
+               {
+                    title += str;
+
                }
-                if( str.contains("</title>")) title_flag = false;
+                if( str.contains("</title>")){
+                   title_flag = false;
+                    String title_replaced=title.replace("<title>","").replace("</title>","").replace("\"","\\\"");
+                    System.out.println("{");
+                    System.out.println("\"id\" : " + title_replaced.substring(title_replaced.indexOf("-")+1,title_replaced.indexOf("]")) +",");
+                    System.out.println("\"title\" : \"" + title_replaced.substring(title_replaced.indexOf("]")+2,title_replaced.length())+"\",");
+                    title = "";
+               }
 
-                if( str.contains("<summary>")) {summary_flag = true; summary = ""; summary += str;}
-                if( str.contains("</summary>")) {summary_flag = false;  summary += str; }
-               if(summary_flag && !str.contains("<summary>"))
+                if( str.contains("<summary>") ) summary_flag = true;
+                if( summary_flag || str.contains("<summary>") || str.contains("</summary>"))
                 {
-                    summary +=str;
-//                    do {
-//                        summary = summary + str;
-//                        str=s.nextLine().toString();
-//                    }
-//                    while(str.contains("<\\summary>"));
-
+                    summary += str;
 
                 }
-                if( str.contains("</item>")){System.out.println("\"summary\" : " + "\""+summary+"\"" + "\n },");}
+                if( str.contains("</summary>")){
+                    summary_flag = false;
+                    String summary_replaced=summary.replace("<summary>","").replace("</summary>","").replace("\"","\\\"");
+                    System.out.println("\"body\" : \"" + summary_replaced + "\"");
+                    System.out.println("},");
+                    summary = "";
+                }
+
 
             }
         } finally {

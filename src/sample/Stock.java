@@ -18,18 +18,41 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Stock {
-    private String ticket;
+    public String ticket;
+    public String binpattern = "";
     private Integer udt_startdate;
     private Integer udt_endate;
     private int udt_step;
     private ArrayList<Float> prices;
     private ArrayList<Float> volumns;
     private int counter = 0;
+    ArrayList<stkrcd> stkrcds;
     private HSSFWorkbook wb;
     public Stock(String tk){
 
         ticket = tk;
     }
+
+    class stkrcd{
+        Date date;
+        String datestr;
+        float open;
+        float high;
+        float low;
+        float close;
+        float adj_close;
+        float volumn;
+        float close_diff;
+
+    }
+
+    Comparator<stkrcd> cii = new Comparator<stkrcd>(){
+
+        @Override
+        public int compare(stkrcd i,stkrcd j) {
+
+            return i.date.compareTo(j.date);
+        }};
 
     public void getStock2Excel() throws Exception {
         String path =  "HKstks" + File.separator + ticket + ".xls";
@@ -119,8 +142,9 @@ public class Stock {
 
     public void update() throws Exception{ //update everyday stock change
         String file = "HKstks" + File.separator + ticket + ".xls";
-        FileInputStream fi = new FileInputStream(file);
-        POIFSFileSystem fs = new POIFSFileSystem(fi);
+//        FileInputStream fi = new FileInputStream(file);
+        System.out.println("\"HKstks\" + File.separator + ticket + \".xls\"" + file);
+        POIFSFileSystem fs = new POIFSFileSystem( new FileInputStream(file));
 
          wb = new HSSFWorkbook(fs);
         HSSFSheet sheet = wb.getSheetAt(0);
@@ -142,7 +166,7 @@ public class Stock {
             System.out.println("lastday :" + sheet.getRow(sheet.getLastRowNum() - 1).getCell(1).getStringCellValue());
             System.out.println(" cal1.setTime(date); :" + cal1.getTime());
             System.out.println(" daysBetween :" + Update.daysBetween(cal1.getTime(), cal2.getTime()));
-            int step = Update.daysBetween(cal1.getTime(), cal2.getTime()) * 3600 * 24;
+            int step = (Update.daysBetween(cal1.getTime(), cal2.getTime())) * 3600 * 24;
             udt_endate = Update.todaysecs;
             udt_startdate = udt_endate - step;
         }
@@ -184,18 +208,75 @@ public void Update2excel() throws Exception{
 }
     public void markUpDown2_binaries() //mark day up as 1 and day down as 0
         {
+            //do subtraction to get difference between 2 days
 
-    }
+            //if difference is greater than 0, set the binary to 1, otherwise 0
+        }
 
-    public void readFromExcel(){
+    public void readFromExcel() throws Exception{
         //open excel file
+        String file = "HKstks" + File.separator + ticket + ".xls";
+//        FileInputStream fi = new FileInputStream(file);
+        System.out.println("\"HKstks\" + File.separator + ticket + \".xls\"" + file);
+        POIFSFileSystem fs = new POIFSFileSystem( new FileInputStream(file));
+
+        wb = new HSSFWorkbook(fs);
+        HSSFSheet sheet = wb.getSheetAt(0);
 
         //read data to arraylist
+        stkrcds= new ArrayList<stkrcd>();
+        for (int i = 1; i < sheet.getLastRowNum(); i++)
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
+            stkrcds.add(new stkrcd());
+            stkrcds.get(i-1).datestr = sheet.getRow(i).getCell(0).getStringCellValue();
+            stkrcds.get(i-1).date = sdf.parse(sheet.getRow(i).getCell(1).getStringCellValue());
+            stkrcds.get(i-1).open =Float.parseFloat(sheet.getRow(i).getCell(2).getStringCellValue());
+            stkrcds.get(i-1).high =Float.parseFloat(sheet.getRow(i).getCell(3).getStringCellValue());
+            stkrcds.get(i-1).low =Float.parseFloat(sheet.getRow(i).getCell(4).getStringCellValue());
+            stkrcds.get(i-1).close = Float.parseFloat(sheet.getRow(i).getCell(5).getStringCellValue());
+            stkrcds.get(i-1).adj_close =Float.parseFloat(sheet.getRow(i).getCell(6).getStringCellValue());
+            stkrcds.get(i-1).volumn =Float.parseFloat(sheet.getRow(i).getCell(7).getStringCellValue().replace(",",""));
+            if(i>1)stkrcds.get(i-1).close_diff =Float.parseFloat(sheet.getRow(i).getCell(5).getStringCellValue()) - Float.parseFloat(sheet.getRow(i-1).getCell(5).getStringCellValue());
+        }
+
 
         //close the file
+        wb.close();
+        fs.close();
     }
 
     public void getLast7sData(){
+
+//        Float volc = new Float(0.0);
+        String datestrc = "";
+        //remove duplicate
+//        List<stkrcd> al = stkrcds;
+        Collections.sort(stkrcds,cii);
+        ArrayList<stkrcd> stkrcds2 = new  ArrayList<stkrcd>();
+        for (int i =0; i < stkrcds.size(); i++)
+        {
+//            {stkrcds.remove(i);}
+            if (!datestrc.equals(stkrcds.get(i).datestr)){
+            datestrc = stkrcds.get(i).datestr;
+                System.out.println(datestrc);
+                stkrcds2.add(stkrcds.get(i));
+            }
+
+        }
+        stkrcds = stkrcds2;
         //get last 7 day's data from arraylist
+        for (int i =0; i < stkrcds.size()-7; i++)
+        {
+            stkrcds.remove(i);
+        }
+        for (int i =stkrcds.size()-7; i < stkrcds.size(); i++)
+        {
+            System.out.println("date : "+stkrcds.get(i).date+ "  volumn : " + stkrcds.get(i).volumn + "  close_diff : " + stkrcds.get(i).close_diff);
+            if (stkrcds.get(i).close_diff / stkrcds.get(i).close > 0.01)
+            {binpattern +="1";}
+            else{binpattern += "0";}
+        }
+       System.out.println("binpattern is " + binpattern);
     }
 }
