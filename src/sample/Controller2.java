@@ -320,7 +320,7 @@ public class Controller2 implements Initializable{
         }
 
         @FXML protected void StocksTest(ActionEvent event) throws Exception {
-        for(int i = 1170; i <1171; i++){
+        for(int i = 447; i <448; i++){
          Stock stk = new Stock(stks.get(i));
          stk.getStock2Excel();
 //         stk.update();
@@ -328,7 +328,7 @@ public class Controller2 implements Initializable{
         }
 
     @FXML protected void StocksUpdate(ActionEvent event) throws Exception {
-        for(int i = 611; i <613; i++){
+        for(int i = 1; i < stks.size(); i++){
             Stock stk = new Stock(stks.get(i));
 //            stk.getStock2Excel();
          stk.update();
@@ -355,7 +355,7 @@ public class Controller2 implements Initializable{
             stk.readFromExcel();
             if (stk.stkrcds.size()>7){
             stk.getLast7sData();}
-            if (stk.binpattern.contains("111"))
+            if (stk.binpattern.contains("11111"))
             {
                 bided += stk.ticket + "\n";
             }
@@ -373,11 +373,16 @@ public class Controller2 implements Initializable{
         Scanner s = null;
         String summary ="";
         String title = "";
+        String updated = "";
+        String comment = "";
         boolean summary_flag = false;
+        boolean comment_flag = false;
         boolean title_flag = false;
+        boolean updated_flag = false;
+        int counter = 0;
 
         try {
-            s = new Scanner(new BufferedReader(new FileReader("xml.txt")));
+            s = new Scanner(new BufferedReader(new FileReader("xml2.txt")));
 
             while (s.hasNextLine()) {
                 String str = s.nextLine().toString();
@@ -395,6 +400,7 @@ public class Controller2 implements Initializable{
                     System.out.println("\"id\" : " + title_replaced.substring(title_replaced.indexOf("-")+1,title_replaced.indexOf("]")) +",");
                     System.out.println("\"title\" : \"" + title_replaced.substring(title_replaced.indexOf("]")+2,title_replaced.length())+"\",");
                     title = "";
+                    counter = 1;
                }
 
                 if( str.contains("<summary>") ) summary_flag = true;
@@ -406,11 +412,46 @@ public class Controller2 implements Initializable{
                 if( str.contains("</summary>")){
                     summary_flag = false;
                     String summary_replaced=summary.replace("<summary>","").replace("</summary>","").replace("\"","\\\"");
-                    System.out.println("\"body\" : \"" + summary_replaced + "\"");
-                    System.out.println("},");
+                    System.out.println("\"body\" : \"" + summary_replaced + "\""+",");
+//                    System.out.println(",");
                     summary = "";
                 }
+//------------------------------------------
+                if( str.contains("<comments>") ) comment_flag = true;
+                if( comment_flag || str.contains("<comments>") || str.contains("</comments>"))
+                {
+                    comment += str;
 
+                }
+                if( str.contains("</comments>")){
+                    comment_flag = false;
+
+                    comment=comment.replace("<comments>","").replace("</comments>","").replace("</comment>","");
+                    while(comment.contains("<c")){
+
+                        comment=comment.replace(comment.substring(comment.indexOf("<c"), comment.indexOf(">",comment.indexOf("<c"))),"");
+//                        System.out.println("comment : " + comment +"  comment.indexOf(\"<c\")    " + comment.indexOf("<c")+"                "+"comment.indexOf(\">\")     " + comment.indexOf(">"));
+                    }
+                    String comment_replaced=comment.replace("\"","\\\"").replace(comment.subSequence(0,1),"");
+                    System.out.println("\"comment\" : \"" + comment_replaced + "\"");
+                    System.out.println("},");
+                    comment = "";
+                }
+//-------------------------------------------
+                if( str.contains("<updated>") &&(counter == 1)) updated_flag = true;
+                if( (updated_flag || str.contains("<updated>") || str.contains("</updated>") &&(counter == 1)))
+                {
+                    updated += str;
+
+                }
+                if( str.contains("</updated>")&&(counter == 1)){
+                    updated_flag = false;
+                    String updated_replaced=updated.replace("<updated>","").replace("</updated>","").replace("\"","\\\"");
+                    System.out.println("\"updated\" : \"" + updated_replaced + "\"" +",");
+//                    System.out.println(",");
+                    counter++;
+                    updated = "";
+                }
 
             }
         } finally {

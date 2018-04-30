@@ -11,7 +11,7 @@ public class Connection {
 
         InetAddress ipa = InetAddress.getLocalHost();
         String ip = ipa.getHostAddress();
-        if(ip.equals("10.15.39.248")){
+        if(ip.equals("10.15.39.184")){
         URL url = new URL(http);
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy1.edb.gov.hk", 8080)); // or whatever your proxy is
         System.setProperty("http.proxyHost", "proxy1.edb.gov.hk");
