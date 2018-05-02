@@ -320,7 +320,7 @@ public class Controller2 implements Initializable{
         }
 
         @FXML protected void StocksTest(ActionEvent event) throws Exception {
-        for(int i = 447; i <448; i++){
+        for(int i = 372; i <stks.size(); i++){
          Stock stk = new Stock(stks.get(i));
          stk.getStock2Excel();
 //         stk.update();
@@ -328,7 +328,7 @@ public class Controller2 implements Initializable{
         }
 
     @FXML protected void StocksUpdate(ActionEvent event) throws Exception {
-        for(int i = 1; i < stks.size(); i++){
+        for(int i = 826; i < stks.size(); i++){
             Stock stk = new Stock(stks.get(i));
 //            stk.getStock2Excel();
          stk.update();
@@ -347,26 +347,47 @@ public class Controller2 implements Initializable{
 
     @FXML protected void TestBinPattern(ActionEvent event) throws Exception {
 
+            String bided = "";
+            for (int i = 0; i < stks.size(); i++) {
+                Stock stk = new Stock(stks.get(i));
+//            stk.getStock2Excel();
+                try {
+                stk.readFromExcel();
+                if (stk.stkrcds.size() > 7) {
+                    stk.getLast7sData();
+                }
+
+                if (stk.binpattern.contains("11111")) {
+                    bided += stk.ticket + "\n";
+                }}
+                 catch(Exception e)
+                    {}
+        finally{}
+            }
+
+            System.out.println(bided);
+    }
+
+    @FXML protected void Test1yearPermonth(ActionEvent event) throws Exception {
+
         String bided = "";
-        for(int i = 0; i <stks.size(); i++){
+        for (int i = 0; i < stks.size(); i++) {
             Stock stk = new Stock(stks.get(i));
 //            stk.getStock2Excel();
-
-            stk.readFromExcel();
-            if (stk.stkrcds.size()>7){
-            stk.getLast7sData();}
-            if (stk.binpattern.contains("11111"))
-            {
-                bided += stk.ticket + "\n";
-            }
+            try {
+                stk.readFromExcel();
+                if (stk.stkrcds.size() >= 260) {
+                    stk.get1yearPermonth();
+                }
+                if (stk.binpattern.contains("11111")) {
+                    bided += stk.ticket + "\n";
+                }}
+            catch(Exception e)
+            {}
+            finally{}
         }
 
         System.out.println(bided);
-//        Stock stk = new Stock("0700.HK");
-////            stk.getStock2Excel();
-//        stk.readFromExcel();
-//        stk.getLast7sData();
-
     }
 
     @FXML protected void getQuestion (ActionEvent event) throws Exception {

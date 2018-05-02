@@ -144,12 +144,13 @@ public class Stock {
         String file = "HKstks" + File.separator + ticket + ".xls";
 //        FileInputStream fi = new FileInputStream(file);
         System.out.println("\"HKstks\" + File.separator + ticket + \".xls\"" + file);
-        POIFSFileSystem fs = new POIFSFileSystem( new FileInputStream(file));
+try {
+    POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(file));
 
-         wb = new HSSFWorkbook(fs);
-        HSSFSheet sheet = wb.getSheetAt(0);
-        if(sheet.getLastRowNum()>0){  // only update for stocks with data
-      String lastday = sheet.getRow(sheet.getLastRowNum()).getCell(1).getStringCellValue();
+    wb = new HSSFWorkbook(fs);
+    HSSFSheet sheet = wb.getSheetAt(0);
+    if (sheet.getLastRowNum() > 0) {  // only update for stocks with data
+        String lastday = sheet.getRow(sheet.getLastRowNum()).getCell(1).getStringCellValue();
         System.out.println("sheet.getLastRowNum()).getCell(1).getStringCellValue() :" + lastday);
 
         Calendar cal1 = new GregorianCalendar();
@@ -161,7 +162,7 @@ public class Stock {
         date = sdf.parse(lastday);
         cal1.setTime(date);
         cal2.setTime(new Date());
-        if(sheet.getLastRowNum() != 0) {
+        if (sheet.getLastRowNum() != 0) {
             System.out.println("rows available :" + sheet.getLastRowNum());
             System.out.println("lastday :" + sheet.getRow(sheet.getLastRowNum() - 1).getCell(1).getStringCellValue());
             System.out.println(" cal1.setTime(date); :" + cal1.getTime());
@@ -170,13 +171,16 @@ public class Stock {
             udt_endate = Update.todaysecs;
             udt_startdate = udt_endate - step;
         }
-        }
-        fs.close();
+    }
+    fs.close();
 //        wb.close();
-
+}
+catch (Exception e){}
+finally{}
     }
 
 public void Update2excel() throws Exception{
+        try{
     String path =  "HKstks" + File.separator + ticket + ".xls";
 // Use relative path for Unix systems
     File f = new File(path);
@@ -206,6 +210,10 @@ public void Update2excel() throws Exception{
             fso.close();
             wb.close();
 }
+    catch (Exception e){System.err.println("file readability error occur!");}
+    finally{}
+    }
+
     public void markUpDown2_binaries() //mark day up as 1 and day down as 0
         {
             //do subtraction to get difference between 2 days
@@ -273,10 +281,54 @@ public void Update2excel() throws Exception{
         for (int i =stkrcds.size()-7; i < stkrcds.size(); i++)
         {
             System.out.println("date : "+stkrcds.get(i).date+ "  volumn : " + stkrcds.get(i).volumn + "  close_diff : " + stkrcds.get(i).close_diff);
-            if (stkrcds.get(i).close_diff / stkrcds.get(i).close > 0.02) //define raising ratio
+            if (stkrcds.get(i).close_diff / stkrcds.get(i-1).close < -0.02) //define raising ratio
             {binpattern +="1";} //ratio reached define as "1";
             else{binpattern += "0";}
         }
+
        System.out.println("binpattern is " + binpattern);
+    }
+
+    public void get1yearPermonth(){
+
+//        Float volc = new Float(0.0);
+        String datestrc = "";
+        //remove duplicate
+//        List<stkrcd> al = stkrcds;
+        Collections.sort(stkrcds,cii);
+        ArrayList<stkrcd> stkrcds2 = new  ArrayList<stkrcd>();
+
+        //remove duplicate dates
+        for (int i =0; i < stkrcds.size(); i++)
+        {
+//            {stkrcds.remove(i);}
+            if (!datestrc.equals(stkrcds.get(i).datestr)){
+                datestrc = stkrcds.get(i).datestr;
+                System.out.println(datestrc);
+                stkrcds2.add(stkrcds.get(i));
+            }
+
+        }
+        stkrcds = stkrcds2;
+        //get last 7 day's data from arraylist
+//        for (int i =0; i < stkrcds.size()-7; i++)
+//        {
+//            stkrcds.remove(i);
+//        }
+        for (int i =stkrcds.size()-1; i >= 20; i-=20)
+        {
+            System.out.println("date : "+stkrcds.get(i).date+ "  volumn : " + stkrcds.get(i).volumn + "  close_diff : " + stkrcds.get(i).close_diff);
+            if (stkrcds.get(i).close / stkrcds.get(i-20).close > 1) //define raising ratio
+            {binpattern +="1";} //ratio reached define as "1";
+            else{binpattern += "0";}
+        }
+        String reverse = "";
+
+        //reverse the backward pattern
+        for(int i = binpattern.length() - 1; i >= 0; i--)
+        {
+            reverse = reverse + binpattern.charAt(i);
+        }
+        System.out.println("binpattern is " + reverse);
     }
 }

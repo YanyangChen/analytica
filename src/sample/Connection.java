@@ -29,7 +29,19 @@ public class Connection {
         return String.valueOf(tmp);
         }
         else{
-            return String.valueOf(Jsoup.connect(http).get());
+            URL url = new URL(http);
+            HttpURLConnection uc = (HttpURLConnection)url.openConnection();
+
+            uc.connect();
+
+            String line = null;
+            StringBuffer tmp = new StringBuffer();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            while ((line = in.readLine()) != null) {
+                tmp.append(line);
+            }
+            return String.valueOf(tmp);
+//            return String.valueOf(Jsoup.connect(http).ignoreHttpErrors(true).ignoreContentType(true).timeout(3000).get());
         }
     }
 

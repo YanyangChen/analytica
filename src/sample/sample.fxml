@@ -48,4 +48,8 @@
     <Button fx:id="TestBinPattern" GridPane.columnIndex="1" GridPane.rowIndex="9"  text="TestBinPattern" onAction="#TestBinPattern">
 
     </Button>
+
+    <Button fx:id="Test1yearPermonth" GridPane.columnIndex="0" GridPane.rowIndex="10"  text="Test1yearPermonth" onAction="#Test1yearPermonth">
+
+    </Button>
 </GridPane>
