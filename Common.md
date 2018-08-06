@@ -5,7 +5,7 @@
  - [array and strings](https://github.com/careercup/CtCI-6th-Edition/tree/master/Java/Ch%2001.%20Arrays%20and%20Strings)
 ### ALgorithm
 ### Database
-- Difference between ddl and dml
+
 * Bullet list
          * Nested bullet
                * Sub-nested bullet etc
