@@ -19,6 +19,14 @@
   care, expertise, and wisdom. A small bug in a computer-aided design
   program, for example, can lead to the catastrophic collapse of an airplane
   or a dam or the self-destruction of an industrial robot.
+  
+* Every powerful language has three mechanisms for accomplishing this:
+  ² primitive expressions, which represent the simplest entities the language
+  is concerned with,
+  ² means of combination, by which compound elements are built from
+  simpler ones, and
+  ² means of abstraction, by which compound elements can be named and
+  manipulated as units.
 ### ALgorithm
 ### Database
 
