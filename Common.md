@@ -6,9 +6,11 @@
 ### ALgorithm
 ### Database
 
-* Bullet list
-    * Nested bullet
-        * Sub-nested bullet etc
+* Difference between ddl and dml
+    * ddl
+        * ddl: Sub-nested bullet etc
+    * dml
+        * dml: Sub-nested bullet etc
 * Bullet list item 2
 ### Object thinking
 ### Design pattern
