@@ -62,6 +62,15 @@ the OS provides these calls to run programs, access memory and devices,
 and other related actions, we also sometimes say that the OS provides a
 standard library to applications.
 
+  * Finally, because virtualization allowsmany programs to run (thus sharing
+the CPU), and many programs to concurrently access their own instructions
+and data (thus sharingmemory), andmany programs to access
+devices (thus sharing disks and so forth), the OS is sometimes known as
+a resource manager. Each of the CPU, memory, and disk is a resource
+of the system; it is thus the operating system’s role to manage those resources,
+doing so efficiently or fairly or indeed with many other possible
+goals in mind.
+
 - [docker](https://hackernoon.com/docker-tutorial-getting-started-with-python-redis-and-nginx-81a9d740d091)
 [(in Chinese)](https://wangfanggang.com/Docker/docker/)
   * Container — a running instance that encapsulates required software. Containers are always created from images. **A container can expose ports and volumes to interact with other containers or/and the outer world. Containers can be easily killed / removed and re-created again in a very short time. Containers don’t keep state.**
