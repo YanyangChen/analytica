@@ -49,6 +49,7 @@
 - DHCP
 ### Project management
 ### System environment
+- [docker](https://hackernoon.com/docker-tutorial-getting-started-with-python-redis-and-nginx-81a9d740d091)
 - Windows server
 - Linux
 - SQL server
