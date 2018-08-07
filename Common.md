@@ -49,6 +49,13 @@
 - DHCP
 ### Project management
 ### System environment
+  *There is a body of software, in fact, that is responsible for making it
+easy to run programs (even allowing you to seemingly run many at the
+same time), allowing programs to share memory, enabling programs to
+interact with devices, and other fun stuff like that. That body of software 
+is called the operating system (OS), as it is in charge of making sure the
+system operates correctly and efficiently in an easy-to-use manner.
+
 - [docker](https://hackernoon.com/docker-tutorial-getting-started-with-python-redis-and-nginx-81a9d740d091)
 [(in Chinese)](https://wangfanggang.com/Docker/docker/)
   * Container — a running instance that encapsulates required software. Containers are always created from images. **A container can expose ports and volumes to interact with other containers or/and the outer world. Containers can be easily killed / removed and re-created again in a very short time. Containers don’t keep state.**
