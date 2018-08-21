@@ -15,7 +15,7 @@
 
 —John Locke, An Essay Concerning Human Understanding (1690)
 
-*a leading teacher of the sixteenth-century Tzfat rationalist-kabbalist school, explained the need and the parameters of originality in Kabbalah:
+* a leading teacher of the sixteenth-century Tzfat rationalist-kabbalist school, explained the need and the parameters of originality in Kabbalah:
 
 The Book of Formation says, “Understand with wisdom; be wise with understanding.” 
 
