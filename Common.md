@@ -102,6 +102,8 @@ goals in mind.
 [(Chinese)](https://juejin.im/post/5ae3df166fb9a07aa43bf3eb)[(password_automating)](https://stackoverflow.com/questions/8588768/how-do-i-avoid-the-specification-of-the-username-and-password-at-every-git-push)
 
 -[How to contribute to opensource community](https://opensource.guide/how-to-contribute/)
+
+-[Jobs in PRC](https://github.com/BestDingSheng/resources)
 ### Technologies/products
 > Programming language
 - Php
