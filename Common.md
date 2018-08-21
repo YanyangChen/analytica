@@ -15,6 +15,16 @@
 
 —John Locke, An Essay Concerning Human Understanding (1690)
 
+*a leading teacher of the sixteenth-century Tzfat rationalist-kabbalist school, explained the need and the parameters of originality in Kabbalah:
+
+The Book of Formation says, “Understand with wisdom; be wise with understanding.” 
+
+“Understand with wisdom” means to investigate well whatever your teacher has taught you in the wisdom of the modalities. After all, in these matters we only transmit a bare outline. From that outline, each person must understand one idea from another.
+
+You can see this in the words of our sages when they said, Yet then it says, “be wise with understanding.” This means that when you originate and analyze with your intellect so that you may understand, you must take care to conceive the idea and explain it within the framework of the tradition of the rabbis and their terse words. The original ideas must be included in that which you have gained, whether much or little.
+
+“This matter is told only to a sage who understands with his own mind.” From this, you see that a person must use his own mind to compare one thing to another, and thereby extract one idea from within the other. That way he will have a procreative mind and not a barren one.
+
 * Real-world programming, however, requires
   care, expertise, and wisdom. A small bug in a computer-aided design
   program, for example, can lead to the catastrophic collapse of an airplane
